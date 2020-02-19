@@ -2,7 +2,7 @@
 set -e
 
 NGINX_CONFIG_SOURCE_ENV_REGEX="^\s*NGINX_CONFIG_SOURCE(_([_A-Z0-9]+))?=(.+)\s*$"
-BASIC_AUTH_ENV_REGEX="^\s*BASIC_AUTH(_([_A-Z0-9]+))?=([-_a-zA-Z0-9]+):(.+)\s*$"
+BASIC_AUTH_ENV_REGEX="^\s*BASIC_AUTH(_([_A-Z0-9]+))?=([-_a-zA-Z0-9]+)[:](.+)\s*$"
 
 # Create resolvers configuration
 echo resolver $(awk 'BEGIN{ORS=" "} $1=="nameserver" {print $2}' "/etc/resolv.conf") ";" > "/etc/nginx/resolvers.conf"
@@ -25,6 +25,6 @@ while read -r basic_auth ; do
   password_hash=$(openssl passwd -quiet -1 "${password}")
   echo "Adding HTTP Basic Auth user ${username}..."
   echo "${username}:${password_hash}"  >> "/etc/nginx/www-users.htpasswd"
-done < <(env | grep -E "${BASIC_AUTH_ENV_REGEX}" | sed -r "s/${BASIC_AUTH_ENV_REGEX}/\3\4/")
+done < <(env | grep -E "${BASIC_AUTH_ENV_REGEX}" | sed -r "s/${BASIC_AUTH_ENV_REGEX}/\3:\4/")
 
 exec "$@"
