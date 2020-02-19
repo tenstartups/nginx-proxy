@@ -20,9 +20,10 @@ RUN \
 RUN bash -c "mv /etc/nginx /etc/nginx.save"
 
 # Copy files into place.
-COPY etc/nginx /etc/nginx
+COPY etc/nginx /etc/nginx/
+COPY var/www/default /var/www/default/
 COPY entrypoint.sh /docker-entrypoint
-COPY healthcheck.js .
+COPY healthcheck.js ./
 
 # Define the healthcheck
 HEALTHCHECK --interval=12s --timeout=12s --start-period=30s CMD node ./healthcheck.js

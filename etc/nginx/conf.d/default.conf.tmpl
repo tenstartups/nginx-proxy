@@ -1,7 +1,10 @@
 server {
   listen {{ HTTP_LISTEN_PORT }} default_server;
 
+  include error_pages.conf;
+
   location = /healthcheck {
-    return 200 'OK';
+    add_header 'Content-Type' 'application/json charset=UTF-8';
+    return 200 '{ "status": 200, message: "OK" }';
   }
 }

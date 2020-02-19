@@ -9,6 +9,7 @@ clean_build: Dockerfile
 run: build
 	docker run -it --rm \
 		-e HTTP_LISTEN_PORT=8080 \
+		-p 8080:8080 \
 		-v "$(PWD)/test-config":/data:ro \
 		-e BASIC_AUTH_USER=basic_auth_user:basic_auth_pass \
 		-e NGINX_CONFIG_SOURCE=/data \
