@@ -20,10 +20,10 @@ while read -r config_source ; do
 done < <(env | grep -E "${NGINX_CONFIG_SOURCE_ENV_REGEX}" | sed -r "s/${NGINX_CONFIG_SOURCE_ENV_REGEX}/\3/")
 
 while read -r basic_auth ; do
-  echo "Adding HTTP Basic Auth user ${basic_auth}..."
   username=$(echo "${basic_auth}" | cut -d ":" -f 1)
   password=$(echo "${basic_auth}" | cut -d ":" -f 2-)
   password_hash=$(openssl passwd -quiet -1 "${password}")
+  echo "Adding HTTP Basic Auth user ${username}..."
   echo "${username}:${password_hash}"  >> "/etc/nginx/www-users.htpasswd"
 done < <(env | grep -E "${BASIC_AUTH_ENV_REGEX}" | sed -r "s/${BASIC_AUTH_ENV_REGEX}/\3\4/")
 
