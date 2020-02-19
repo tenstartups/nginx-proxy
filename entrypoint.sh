@@ -23,7 +23,7 @@ done < <(env | grep -E "${NGINX_CONFIG_SOURCE_ENV_REGEX}" | sed -r "s/${NGINX_CO
 find "/etc/nginx/conf.d/" -type f -name "*.conf.tmpl" | while read template_file; do
   tmp_conf_file=$(mktemp /tmp/nginx-conf.XXXXXXXXX)
   config_file="${template_file%.*}"
-  envsubst < "${template_file}" > "${tmp_conf_file}"
+  envhandlebars < "${template_file}" > "${tmp_conf_file}"
   rm "${template_file}"
   cp "${tmp_conf_file}" "${config_file}"
   rm -r "${tmp_conf_file}"

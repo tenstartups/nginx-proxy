@@ -5,12 +5,16 @@ ENV \
   HTTP_LISTEN_PORT=80
 
 # Install packages.
-RUN apk add --update bash bind-tools gettext nodejs openssl python3 py3-pip
+RUN apk add --update bash bind-tools gettext nodejs npm openssl python3 py3-pip
 
-# Install AWS CLI from bundle
+# Install Python modules
 RUN \
   pip3 install --upgrade pip && \
   pip3 install awscli --upgrade
+
+# Install NodeJS modules
+RUN \
+  npm install -g envhandlebars
 
 # Backup the existing nginx configuration.
 RUN bash -c "mv /etc/nginx /etc/nginx.save"

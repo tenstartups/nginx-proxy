@@ -1,5 +1,5 @@
 server {
-  listen ${HTTP_LISTEN_PORT} default_server;
+  listen {{HTTP_LISTEN_PORT}} default_server;
 
   location = /healthcheck {
     return 200 'OK';
