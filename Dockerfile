@@ -1,7 +1,11 @@
 FROM nginx:alpine
 
+# Set environment variables.
+ENV \
+  HTTP_LISTEN_PORT=80
+
 # Install packages.
-RUN apk add --update bash bind-tools nodejs openssl python3 py3-pip
+RUN apk add --update bash bind-tools gettext nodejs openssl python3 py3-pip
 
 # Install AWS CLI from bundle
 RUN \
@@ -15,9 +19,6 @@ RUN bash -c "mv /etc/nginx /etc/nginx.save"
 COPY etc/nginx /etc/nginx
 COPY entrypoint.sh /docker-entrypoint
 COPY healthcheck.js .
-
-# Expose ports.
-EXPOSE 80
 
 # Define the healthcheck
 HEALTHCHECK --interval=12s --timeout=12s --start-period=30s CMD node ./healthcheck.js

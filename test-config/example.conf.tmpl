@@ -1,0 +1,8 @@
+server {
+  listen ${HTTP_LISTEN_PORT};
+  server_name example.com;
+
+  location = / {
+    return 200 'OK';
+  }
+}

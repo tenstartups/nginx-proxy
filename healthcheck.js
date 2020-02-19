@@ -2,7 +2,7 @@ var http = require("http")
 
 var options = {
   host : "localhost",
-  port : process.env.NGINX_LISTEN_PORT,
+  port : process.env.HTTP_LISTEN_PORT,
   path : '/healthcheck',
   timeout : 2000
 }
