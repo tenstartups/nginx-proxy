@@ -5,12 +5,7 @@ ENV \
   HTTP_LISTEN_PORT=80
 
 # Install packages.
-RUN apk add --update bash bind-tools gettext libcap nodejs npm openssl python3 py3-pip
-
-# Install Python modules
-RUN \
-  pip3 install --upgrade pip && \
-  pip3 install awscli --upgrade
+RUN apk add --update bash bind-tools gettext libcap nodejs npm openssl aws-cli
 
 # Install NodeJS modules
 RUN \
