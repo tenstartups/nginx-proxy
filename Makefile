@@ -1,4 +1,5 @@
 DOCKER_IMAGE_NAME := tenstartups/nginx-proxy:latest
+PLATFORMS ?= linux/amd64,linux/arm64
 
 build: Dockerfile
 	docker build --file Dockerfile --tag $(DOCKER_IMAGE_NAME) .
@@ -15,5 +16,5 @@ run: build
 		-e NGINX_CONFIG_SOURCE=/data \
 		$(DOCKER_IMAGE_NAME) $(ARGS)
 
-push: build
-	docker push $(DOCKER_IMAGE_NAME)
+push: Dockerfile
+	docker buildx build --platform $(PLATFORMS) --file Dockerfile --tag $(DOCKER_IMAGE_NAME) --push .
