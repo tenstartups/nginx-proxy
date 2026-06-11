@@ -18,6 +18,8 @@ RUN bash -c "mv /etc/nginx /etc/nginx.save"
 COPY etc/nginx /etc/nginx/
 COPY var/www/default /var/www/default/
 COPY entrypoint.sh /docker-entrypoint
+
+WORKDIR /app
 COPY healthcheck.js ./
 
 ARG APP_UID=1001
@@ -25,7 +27,7 @@ ARG APP_GID=1001
 RUN addgroup -g "${APP_GID}" -S app \
   && adduser -u "${APP_UID}" -S -G app -h /var/cache/nginx -D app \
   && mkdir -p /tmp/nginx \
-  && chown -R app:app /etc/nginx /var/www /docker-entrypoint /var/cache/nginx /tmp/nginx . \
+  && chown -R app:app /etc/nginx /var/www /docker-entrypoint /var/cache/nginx /tmp/nginx /app \
   && chmod +x /docker-entrypoint \
   && setcap 'cap_net_bind_service=+ep' /usr/sbin/nginx
 
